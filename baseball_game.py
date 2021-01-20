@@ -236,9 +236,9 @@ def is_yes(one_more_input):
     # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
 
     result = one_more_input.lower()
-    print(result)
+    # print(result)
     # ==================================
-    return True if result == "yes" else False
+    return True if result == "yes" or result == "y" else False
 
 
 def is_no(one_more_input):
@@ -270,18 +270,44 @@ def is_no(one_more_input):
 
     result = one_more_input.lower()
     # ==================================
-    return True if result == "no" else False
+    return True if result == "no" or result == "n" else False
 
 
 def main():
     print("Play Baseball")
     user_input = 999
-    random_number = str(get_not_duplicated_three_digit_number())
-    print("Random Number is : ", random_number)
     # ===Modify codes below=============
-    # 위의 코드를 포함하여 자유로운 수정이 가능함
-
-    # ==================================
+    while True:
+        random_number = str(get_not_duplicated_three_digit_number())
+        print("Random Number is : ", random_number)
+        # 위의 코드를 포함하여 자유로운 수정이 가능함
+        flag2 = 0
+        while not flag2:
+            flag2 = 0
+            user_input = input('Input guess number : ')
+            if is_validated_number(user_input):
+                strike_num, ball_num = get_strikes_or_ball(user_input, random_number)
+                print(f"Strikes : {strike_num} , Balls : {ball_num}")
+                if strike_num == 3 and ball_num == 0:
+                    flag3 = 0
+                    while not flag3:
+                        one_more_flag = input("You win, one more(Y/N)?")
+                        if is_yes(one_more_flag):
+                            flag3 = 1
+                            flag2 = 1
+                        elif is_no(one_more_flag):
+                            flag3 = 2
+                        else:
+                            print("Wrong Input, Input again")
+                    if flag3 == 2:
+                        break
+            elif user_input == "0":
+                break
+            else:
+                print("Wrong Input, Input again")
+        # ==================================
+        if not flag2:
+            break
     print("Thank you for using this program")
     print("End of the Game")
 
